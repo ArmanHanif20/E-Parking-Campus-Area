@@ -1,8 +1,5 @@
 from flask import Flask, render_template, session, request, redirect, jsonify
 import pymysql
-pymysql.install_as_MySQLdb()
-
-import MySQLdb
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 import os
@@ -24,12 +21,13 @@ if not os.path.exists(UPLOAD_FOLDER):
 # DATABASE RAILWAY
 # ========================
 
-db = MySQLdb.connect(
+db = pymysql.connect(
     host=os.getenv("MYSQLHOST"),
     user=os.getenv("MYSQLUSER"),
-    passwd=os.getenv("MYSQLPASSWORD"),
-    db=os.getenv("MYSQLDATABASE"),
-    port=int(os.getenv("MYSQLPORT"))
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT")),
+    cursorclass=pymysql.cursors.DictCursor
 )
 
 # ========================

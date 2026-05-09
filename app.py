@@ -5,7 +5,12 @@ import MySQLdb
 from werkzeug.security import check_password_hash, generate_password_hash
 import os
 from werkzeug.utils import secure_filename
+import os
 
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
+    
 app = Flask(__name__)
 app.secret_key = "parking_secret_key"
 
@@ -19,11 +24,15 @@ if not os.path.exists(UPLOAD_FOLDER):
 # ========================
 # KONEKSI DATABASE
 # ========================
-db = MySQLdb.connect(
-    host="localhost",
-    user="root",
-    passwd="",
-    db="campus_parking"
+import os
+import pymysql
+
+db = pymysql.connect(
+    host=os.getenv("MYSQLHOST"),
+    user=os.getenv("MYSQLUSER"),
+    password=os.getenv("MYSQLPASSWORD"),
+    database=os.getenv("MYSQLDATABASE"),
+    port=int(os.getenv("MYSQLPORT"))
 )
 
 # ========================
